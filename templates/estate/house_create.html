@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+{% block content %}
+<h4>House create</h4>
+<form action="" method="post" hx-post="/houses/new" hx-target="this" hx-swap="outerHTML">
+    <h5>заполните поля </h5>
+    {% csrf_token %}
+    {{form.as_p}}
+    {{images_form.as_p}}
+    <button type="submit">Далее</button>
+</form>
+{% endblock content %}
