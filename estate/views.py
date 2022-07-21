@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from pprint import pprint
+from django.http import HttpResponse
 from .models import House, HouseDetail, HouseImage
 from .forms import HouseForm, DetailForm, ImageForm
 
@@ -56,6 +56,13 @@ def image_create(request, house_id):
             img = form.save(commit=False)
             img.house = house
             img.save()
-            return redirect('house_list')
+            return render(request, 'estate/partials/image_template.html', {'image': img})
     context = {'image_form': form, 'house_id': house.pk}
-    return render(request, 'estate/partials/image_create.html', context)
+    return render(request, 'estate/partials/image_form.html', context)
+
+
+@login_required
+def image_delete(request, image_id):
+    img = get_object_or_404(HouseImage, pk=image_id)
+    img.delete()
+    return HttpResponse('')
