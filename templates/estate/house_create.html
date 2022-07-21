@@ -5,7 +5,6 @@
     <h5>заполните поля </h5>
     {% csrf_token %}
     {{form.as_p}}
-    {{images_form.as_p}}
     <button type="submit">Далее</button>
 </form>
 {% endblock content %}
