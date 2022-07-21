@@ -3,6 +3,9 @@ from .models import House, HouseDetail, HouseImage
 
 
 class HouseForm(forms.ModelForm):
+    latitude = forms.FloatField(widget=forms.HiddenInput)
+    longitude = forms.FloatField(widget=forms.HiddenInput)
+
     class Meta:
         model = House
         fields = ('title', 'latitude', 'longitude')

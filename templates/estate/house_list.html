@@ -6,6 +6,14 @@
     {% for h in houses %}
         <li>{{h.title}}</li>
     {% endfor %}
+    <div id="houses_list_map"></div>
 </ul>
     
+<style>
+    #houses_list_map{
+        height: clamp(200px, 400px, 100vh);
+        width: clamp(200px, 400px, 100vw)
+    }
+</style>
+
 {% endblock content %}

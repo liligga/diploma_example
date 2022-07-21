@@ -4,11 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     <title>Houses|buy|sell</title>
 </head>
 <body>
     {% block content %}
     {% endblock content %}
+    
     <script src="https://unpkg.com/htmx.org@1.8.0" defer></script>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
+    <script>
+        let mapOptions = {
+            center: [42.8079, 73.8484], // KaraBalta
+            zoom: 13
+        }
+        let createMap = new L.map('map', mapOptions);
+        let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+        createMap.addLayer(layer);
+        
+        let marker = L.marker([0, 0])
+        createMap.on('click', (e) => {
+            const {lat, lng} = e.latlng;
+            marker.setLatLng([lat, lng]);
+            marker.addTo(createMap);
+            // эти id зависят от названия полей в форме
+            document.getElementById('id_latitude').value = lat;
+            document.getElementById('id_longitude').value = lng;
+        })
+        </script>
+
+<script>
+        let map = new L.map('houses_list_map', mapOptions);
+        let layer_other = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+        map.addLayer(layer_other);
+        // houses - переменная, которая должна быть передана в шаблон списка домов
+        // поменять при надобности
+        // latitude, longitude - поля модели содержащие координаты
+        {% for h in houses %}
+            L.marker([{{h.latitude}}, {{h.longitude}}]).addTo(map);
+        {% endfor %}
+    </script>
 </body>
 </html>
